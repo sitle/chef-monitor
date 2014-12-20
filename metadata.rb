@@ -1,0 +1,7 @@
+name 'chef-monitor'
+maintainer 'Leonard TAVAE'
+maintainer_email 'leonard.tavae@informatique.gov.pf'
+license 'Apache 2.0'
+description 'Installs/Configures chef-monitor'
+long_description 'Installs/Configures chef-monitor'
+version '0.1.0'
