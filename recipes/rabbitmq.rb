@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: chef-monitor
-# Recipe:: default
+# Recipe:: rabbitmq
 #
 # Copyright (C) 2014 Leonard TAVAE
 #
@@ -17,23 +17,20 @@
 # limitations under the License.
 #
 
-include_recipe 'sensu::default'
+include_recipe 'sensu::rabbitmq'
 
-%w(ruby ruby-dev nagios-plugins).each do |pkg|
-  package pkg do
-    action :install
-  end
+rabbitmq_user 'admin' do
+  password 'password'
+  action :add
 end
 
-%w(sensu-plugin).each do |pkg|
-  gem_package pkg do
-    action :install
-  end
+rabbitmq_user 'admin' do
+  vhost '/'
+  permissions '.* .* .*'
+  action :set_permissions
 end
 
-sensu_client node.name do
-  address node.ipaddress
-  subscriptions node.roles + ['all']
+rabbitmq_user 'admin' do
+  tag 'administrator'
+  action :set_tags
 end
-
-include_recipe 'sensu::client_service'

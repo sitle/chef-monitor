@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: chef-monitor
-# Recipe:: default
+# Recipe:: redis
 #
 # Copyright (C) 2014 Leonard TAVAE
 #
@@ -17,23 +17,4 @@
 # limitations under the License.
 #
 
-include_recipe 'sensu::default'
-
-%w(ruby ruby-dev nagios-plugins).each do |pkg|
-  package pkg do
-    action :install
-  end
-end
-
-%w(sensu-plugin).each do |pkg|
-  gem_package pkg do
-    action :install
-  end
-end
-
-sensu_client node.name do
-  address node.ipaddress
-  subscriptions node.roles + ['all']
-end
-
-include_recipe 'sensu::client_service'
+include_recipe 'sensu::redis'
