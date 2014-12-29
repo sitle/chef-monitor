@@ -1,10 +1,11 @@
-# chef-monitor-cookbook
+# chef-monitor
 
-TODO: Enter the cookbook description here.
+This cookbook install and configure the services monitoring and is based on Sensu monitoring tools.
 
 ## Supported Platforms
 
-TODO: List your supported platforms.
+* Debian
+* Ubuntu
 
 ## Attributes
 
@@ -33,6 +34,54 @@ Include `chef-monitor` in your node's `run_list`:
 {
   "run_list": [
     "recipe[chef-monitor::default]"
+  ]
+}
+```
+
+### chef-monitor::rabbitmq
+
+Include `chef-rabbitmq` in your node's `run_list`:
+
+```json
+{
+  "run_list": [
+    "recipe[chef-monitor::rabbitmq]"
+  ]
+}
+```
+
+### chef-monitor::redis
+
+Include `chef-redis` in your node's `run_list`:
+
+```json
+{
+  "run_list": [
+    "recipe[chef-redis::default]"
+  ]
+}
+```
+
+### chef-monitor::server
+
+Include `chef-server` in your node's `run_list`:
+
+```json
+{
+  "run_list": [
+    "recipe[chef-monitor::server]"
+  ]
+}
+```
+
+### chef-monitor::webui
+
+Include `chef-webui` in your node's `run_list` to install Uchiwa web interface :
+
+```json
+{
+  "run_list": [
+    "recipe[chef-monitor::webui]"
   ]
 }
 ```
