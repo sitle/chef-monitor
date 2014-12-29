@@ -16,6 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+node.set['sensu']['rabbitmq']['host'] = node['chef-monitor']['rabbitmq_host']
+node.set['sensu']['rabbitmq']['port'] = node['chef-monitor']['rabbitmq_port']
+node.set['sensu']['redis']['host'] = node['chef-monitor']['redis_host']
+node.set['sensu']['redis']['port'] = node['chef-monitor']['redis_port']
 
 include_recipe 'sensu::server_service'
 include_recipe 'sensu::api_service'
@@ -42,7 +46,7 @@ sensu_check 'redis_memory' do
 end
 
 sensu_check 'rabbitmq_alive' do
-  command '/etc/sensu/plugins/rabbitmq-alive.rb'
+  command "/etc/sensu/plugins/rabbitmq-alive.rb -u #{node['chef-monitor']['rabbitmq_usercheck']} -p #{node['chef-monitor']['rabbitmq_usercheck_password']}"
   handlers ['default']
   subscribers ['rabbitmq']
   interval 30

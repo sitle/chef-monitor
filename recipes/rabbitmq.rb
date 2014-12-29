@@ -17,20 +17,43 @@
 # limitations under the License.
 #
 
+node.set['sensu']['rabbitmq']['host'] = node['chef-monitor']['rabbitmq_host']
+node.set['sensu']['rabbitmq']['port'] = node['chef-monitor']['rabbitmq_port']
+
 include_recipe 'sensu::rabbitmq'
 
-rabbitmq_user 'admin' do
-  password 'password'
+rabbitmq_user 'guest' do
+  action :delete
+end
+
+rabbitmq_user node['chef-monitor']['rabbitmq_usercheck'] do
+  password node['chef-monitor']['rabbitmq_usercheck_password']
   action :add
 end
 
-rabbitmq_user 'admin' do
+rabbitmq_user node['chef-monitor']['rabbitmq_usercheck'] do
   vhost '/'
   permissions '.* .* .*'
   action :set_permissions
 end
 
-rabbitmq_user 'admin' do
+rabbitmq_user node['chef-monitor']['rabbitmq_usercheck'] do
+  tag 'monitoring'
+  action :set_tags
+end
+
+rabbitmq_user node['chef-monitor']['rabbitmq_admin'] do
+  password node['chef-monitor']['rabbitmq_admin_password']
+  action :add
+end
+
+rabbitmq_user node['chef-monitor']['rabbitmq_admin'] do
+  vhost '/'
+  permissions '.* .* .*'
+  action :set_permissions
+end
+
+rabbitmq_user node['chef-monitor']['rabbitmq_admin'] do
   tag 'administrator'
   action :set_tags
 end
