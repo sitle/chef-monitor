@@ -33,7 +33,7 @@ end
 sensu_check 'redis_process' do
   command '/etc/sensu/plugins/check-redis-info.rb'
   handlers ['default']
-  subscribers ['redis']
+  subscribers ['redis', node['chef-monitor']['redis_role']]
   interval 30
   additional(notification: 'Redis is not running', occurrences: 5)
 end
@@ -41,21 +41,21 @@ end
 sensu_check 'redis_memory' do
   command '/etc/sensu/plugins/check-redis-memory.rb -h localhost -w 1024 -c 2048'
   handlers ['default']
-  subscribers ['redis']
+  subscribers ['redis', node['chef-monitor']['redis_role']]
   interval 30
 end
 
 sensu_check 'rabbitmq_alive' do
   command "/etc/sensu/plugins/rabbitmq-alive.rb -u #{node['chef-monitor']['rabbitmq_usercheck']} -p #{node['chef-monitor']['rabbitmq_usercheck_password']}"
   handlers ['default']
-  subscribers ['rabbitmq']
+  subscribers ['rabbitmq', node['chef-monitor']['rabbitmq_role']]
   interval 30
 end
 
 sensu_check 'uchiwa_health' do
   command '/etc/sensu/plugins/uchiwa-health.rb'
   handlers ['default']
-  subscribers ['uchiwa']
+  subscribers [node['chef-monitor']['webui_role']]
   interval 10
 end
 
