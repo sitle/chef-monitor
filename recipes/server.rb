@@ -20,8 +20,14 @@
 include_recipe 'sensu::server_service'
 include_recipe 'sensu::api_service'
 
+sensu_handler "hipchat" do
+  type "pipe"
+  command "/etc/sensu/handlers/hipchat.rb -j /etc/sensu/handlers/hipchat.json"
+  severities ["ok", "critical"]
+end
+
 sensu_check 'redis_process' do
-  command '/usr/local/bin/check-redis-info.rb'
+  command '/etc/sensu/plugins/check-redis-info.rb'
   handlers ['default']
   subscribers ['redis']
   interval 30
@@ -29,10 +35,24 @@ sensu_check 'redis_process' do
 end
 
 sensu_check 'redis_memory' do
-  command '/usr/local/bin/check-redis-memory.rb -h localhost -w 1024 -c 2048'
+  command '/etc/sensu/plugins/check-redis-memory.rb -h localhost -w 1024 -c 2048'
   handlers ['default']
   subscribers ['redis']
   interval 30
+end
+
+sensu_check 'rabbitmq_alive' do
+  command '/etc/sensu/plugins/rabbitmq-alive.rb'
+  handlers ['default']
+  subscribers ['rabbitmq']
+  interval 30
+end
+
+sensu_check 'uchiwa_health' do
+  command '/etc/sensu/plugins/uchiwa-health.rb'
+  handlers ['default']
+  subscribers ['uchiwa']
+  interval 10
 end
 
 sensu_check 'ntp_time' do
@@ -53,7 +73,7 @@ sensu_check 'user_logged' do
   command '/usr/lib/nagios/plugins/check_users -w 0 -c 1'
   handlers ['default']
   subscribers ['all']
-  interval 10
+  interval 2
 end
 
 sensu_check 'root_disk' do
