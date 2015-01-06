@@ -21,7 +21,7 @@ include_recipe 'chef-monitor::default'
 
 sensu_client node.name do
   address node.ipaddress
-  subscriptions node.roles + ['all'] + ['redis'] + ['rabbitmq']
+  subscriptions node.roles
 end
 
 %w(redis).each do |pkg|

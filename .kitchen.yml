@@ -20,17 +20,12 @@ provisioner:
 suites:
   - name: default
     data_bags_path: 'test/integration/default/data_bags'
+    roles_path: 'test/integration/default/roles'
     #encrypted_data_bag_secret_key_path: 'test/integration/default/encrypted_data_bag_secret'
     run_list:
-      - recipe[chef-monitor::default]
-      - recipe[chef-monitor::rabbitmq]
-      - recipe[chef-monitor::redis]
-      - recipe[chef-monitor::_check_redis]
-      - recipe[chef-monitor::_check_rabbitmq]
-      - recipe[chef-monitor::_check_uchiwa]
-      - recipe[chef-monitor::_handler_hipchat]
-      - recipe[chef-monitor::server]
-      - recipe[chef-monitor::webui]
+      - role[monitor-queue]
+      - role[monitor-server]
+      - role[monitor-webui]
     attributes:
       chef-monitor:
         rabbitmq_host: 172.28.128.3
