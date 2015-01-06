@@ -1,0 +1,30 @@
+{
+  "name": "monitor-webui",
+  "description": "Interface de monitoring",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+    "uchiwa": {
+      "api": [
+        {
+          "name": "Testing",
+          "host": "localhost",
+          "port": 4567,
+          "path": "",
+          "ssl": false,
+          "timeout": 5
+        }
+      ]
+    }
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[chef-monitor::webui]",
+    "recipe[chef-monitor::_check_uchiwa]"
+  ],
+  "env_run_lists": {
+
+  }
+}

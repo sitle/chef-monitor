@@ -1,0 +1,21 @@
+{
+  "name": "monitor-queue",
+  "description": "RabbitMQ et Redis pour Sensu.",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[chef-monitor::rabbitmq]",
+    "recipe[chef-monitor::redis]",
+    "recipe[chef-monitor::_check_rabbitmq]",
+    "recipe[chef-monitor::_check_redis]"
+  ],
+  "env_run_lists": {
+
+  }
+}
