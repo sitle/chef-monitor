@@ -27,3 +27,8 @@
   run bash -c "netstat -anpt | grep LISTEN | egrep ':3000' | wc -l"
   [ "$output" -eq 1 ]
 }
+
+@test "Uchiwa dashboard proxy service port is open (80)" {
+  run bash -c "netstat -anpt | grep LISTEN | egrep ':80' | wc -l"
+  [ "$output" -eq 1 ]
+}
