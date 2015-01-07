@@ -1,0 +1,13 @@
+<VirtualHost *:80>
+  ServerName  <%= node['chef-monitor']['webui_domain'] %>
+  ProxyRequests off
+
+  <Proxy *>
+    Require all granted
+  </Proxy>
+
+  <Location />
+    ProxyPass http://localhost:3000/
+    ProxyPassReverse http://localhost:3000/
+  </Location>
+</VirtualHost>

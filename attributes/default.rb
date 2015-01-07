@@ -18,3 +18,4 @@ default['chef-monitor']['redis_role'] = 'monitor-queue'
 ## Configuration uchiwa
 #
 default['chef-monitor']['webui_role'] = 'monitor-webui'
+default['chef-monitor']['webui_domain'] = 'monitoring.dev'
