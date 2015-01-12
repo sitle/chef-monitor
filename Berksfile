@@ -1,9 +1,9 @@
-source "https://supermarket.getchef.com"
+source 'https://supermarket.getchef.com'
 
 metadata
 
-cookbook "ntp"
-cookbook "sensu"
-cookbook "sudo"
-cookbook "uchiwa"
-cookbook "apache2"
+cookbook 'ntp'
+cookbook 'sensu'
+cookbook 'sudo'
+cookbook 'uchiwa'
+cookbook 'apache2'

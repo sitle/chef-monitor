@@ -32,8 +32,8 @@ end
 end
 
 sensu_client node.name do
-  address node.ipaddress
-  subscriptions node.roles + ['all']
+  address node['ipaddress']
+  subscriptions node['roles'] + ['all']
 end
 
 include_recipe 'sensu::client_service'
