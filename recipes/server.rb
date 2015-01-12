@@ -46,7 +46,7 @@ sensu_check 'redis_memory' do
 end
 
 sensu_check 'rabbitmq_alive' do
-  command "/etc/sensu/plugins/rabbitmq-alive.rb -u #{node['chef-monitor']['rabbitmq_usercheck']} -p
+  command "/etc/sensu/plugins/rabbitmq-alive.rb -u #{node['chef-monitor']['rabbitmq_usercheck']} -p \
   #{node['chef-monitor']['rabbitmq_usercheck_password']}"
   handlers ['default']
   subscribers ['rabbitmq', node['chef-monitor']['rabbitmq_role']]
