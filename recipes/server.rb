@@ -86,3 +86,10 @@ sensu_check 'root_disk' do
   subscribers ['all']
   interval 10
 end
+
+sensu_check 'ldap_connect' do
+  command '/usr/lib/nagios/plugins/check_ldap -H ldap.srv.gov.pf -b "dc=pf" -3 -4'
+  handlers ['default']
+  subscribers ['openldap', 'squidcluster']
+  interval 10
+end
