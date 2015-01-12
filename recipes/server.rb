@@ -24,10 +24,10 @@ node.set['sensu']['redis']['port'] = node['chef-monitor']['redis_port']
 include_recipe 'sensu::server_service'
 include_recipe 'sensu::api_service'
 
-sensu_handler "hipchat" do
-  type "pipe"
-  command "/etc/sensu/handlers/hipchat.rb -j /etc/sensu/handlers/hipchat.json"
-  severities ["ok", "critical"]
+sensu_handler 'hipchat' do
+  type 'pipe'
+  command '/etc/sensu/handlers/hipchat.rb -j /etc/sensu/handlers/hipchat.json'
+  severities %w(ok critical)
 end
 
 sensu_check 'redis_process' do
@@ -46,7 +46,8 @@ sensu_check 'redis_memory' do
 end
 
 sensu_check 'rabbitmq_alive' do
-  command "/etc/sensu/plugins/rabbitmq-alive.rb -u #{node['chef-monitor']['rabbitmq_usercheck']} -p #{node['chef-monitor']['rabbitmq_usercheck_password']}"
+  command "/etc/sensu/plugins/rabbitmq-alive.rb -u #{node['chef-monitor']['rabbitmq_usercheck']} -p
+  #{node['chef-monitor']['rabbitmq_usercheck_password']}"
   handlers ['default']
   subscribers ['rabbitmq', node['chef-monitor']['rabbitmq_role']]
   interval 30
@@ -90,6 +91,6 @@ end
 sensu_check 'ldap_connect' do
   command '/usr/lib/nagios/plugins/check_ldap -H ldap.srv.gov.pf -b "dc=pf" -3 -4'
   handlers ['default']
-  subscribers ['openldap', 'squidcluster']
+  subscribers %w(openldap squidcluster)
   interval 10
 end

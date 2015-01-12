@@ -25,7 +25,7 @@ include_recipe 'apache2::mod_xml2enc'
 include_recipe 'apache2::mod_proxy_http'
 include_recipe 'apache2::mod_proxy_html'
 
-web_app "uchiwa" do
+web_app 'uchiwa' do
   template 'uchiwa.erb'
   server_name 'monitoring'
   cookbook 'chef-monitor'
