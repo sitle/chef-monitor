@@ -20,6 +20,7 @@ node.set['sensu']['rabbitmq']['host'] = node['chef-monitor']['rabbitmq_host']
 node.set['sensu']['rabbitmq']['port'] = node['chef-monitor']['rabbitmq_port']
 node.set['sensu']['redis']['host'] = node['chef-monitor']['redis_host']
 node.set['sensu']['redis']['port'] = node['chef-monitor']['redis_port']
+playbook_site = node['chef-monitor']['playbook_site']
 
 include_recipe 'sensu::server_service'
 include_recipe 'sensu::api_service'
@@ -35,7 +36,7 @@ sensu_check 'redis_process' do
   handlers ['default']
   subscribers ['redis', node['chef-monitor']['redis_role']]
   interval 30
-  additional(notification: 'Redis is not running', occurrences: 5)
+  additional(notification: 'Redis is not running', occurrences: 5, playbook: playbook_site + '/Check_redis_process')
 end
 
 sensu_check 'redis_memory' do
@@ -43,6 +44,7 @@ sensu_check 'redis_memory' do
   handlers ['default']
   subscribers ['redis', node['chef-monitor']['redis_role']]
   interval 30
+  additional(playbook: playbook_site + '/Check_redis_memory')
 end
 
 sensu_check 'rabbitmq_alive' do
@@ -51,6 +53,7 @@ sensu_check 'rabbitmq_alive' do
   handlers ['default']
   subscribers ['rabbitmq', node['chef-monitor']['rabbitmq_role']]
   interval 30
+  additional(playbook: playbook_site + '/Check_rabbitmq_alive')
 end
 
 sensu_check 'uchiwa_health' do
@@ -58,6 +61,7 @@ sensu_check 'uchiwa_health' do
   handlers ['default']
   subscribers [node['chef-monitor']['webui_role']]
   interval 10
+  additional(playbook: playbook_site + '/Check_uchiwa_health')
 end
 
 sensu_check 'ntp_time' do
@@ -65,6 +69,7 @@ sensu_check 'ntp_time' do
   handlers ['default']
   subscribers ['all']
   interval 30
+  additional(playbook: playbook_site + '/Check_ntp_time')
 end
 
 sensu_check 'apt_update' do
@@ -72,6 +77,7 @@ sensu_check 'apt_update' do
   handlers ['default']
   subscribers ['all']
   interval 300
+  additional(playbook: playbook_site + '/Check_apt_update')
 end
 
 sensu_check 'user_logged' do
@@ -79,6 +85,7 @@ sensu_check 'user_logged' do
   handlers ['default']
   subscribers ['all']
   interval 2
+  additional(playbook: playbook_site + '/Check_user_logged')
 end
 
 sensu_check 'root_disk' do
@@ -86,6 +93,7 @@ sensu_check 'root_disk' do
   handlers ['default']
   subscribers ['all']
   interval 10
+  additional(playbook: playbook_site + '/Check_root_disk')
 end
 
 sensu_check 'ldap_connect' do
@@ -93,6 +101,7 @@ sensu_check 'ldap_connect' do
   handlers ['default']
   subscribers %w(openldap squidcluster)
   interval 10
+  additional(playbook: playbook_site + '/Check_ldap_connect')
 end
 
 sensu_check 'dns_resolve' do
@@ -100,6 +109,7 @@ sensu_check 'dns_resolve' do
   handlers ['default']
   subscribers ['all']
   interval 10
+  additional(playbook: playbook_site + '/Check_dns_resolve')
 end
 
 sensu_check 'squid_process' do
@@ -107,4 +117,5 @@ sensu_check 'squid_process' do
   handlers ['default']
   subscribers ['squidcluster']
   interval 10
+  additional(playbook: playbook_site + '/Check_squid_process')
 end
