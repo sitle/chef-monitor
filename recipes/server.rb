@@ -94,3 +94,10 @@ sensu_check 'ldap_connect' do
   subscribers %w(openldap squidcluster)
   interval 10
 end
+
+sensu_check 'dns_resolve' do
+  command '/usr/lib/nagios/plugins/check_dns -H www.google.com'
+  handlers ['default']
+  subscribers ['all']
+  interval 10
+end
