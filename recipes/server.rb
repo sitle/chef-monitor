@@ -101,3 +101,10 @@ sensu_check 'dns_resolve' do
   subscribers ['all']
   interval 10
 end
+
+sensu_check 'squid_process' do
+  command '/usr/lib/nagios/plugins/check_procs -C squid3 -w 1:2 -c 1:2'
+  handlers ['default']
+  subscribers ['squidcluster']
+  interval 10
+end
